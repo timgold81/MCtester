@@ -103,7 +103,7 @@ def main():
 
     if (parse_args()==1):
         if (conf.oper_mode==OPER_MODE_CLIENT):
-            print("Starting in client mode")
+            print("Starting in client mode. CTRL+C to stop.")
             try:
                 thread = client_worker()
                 thread.daemon=True
@@ -116,7 +116,7 @@ def main():
 
 
         elif (conf.oper_mode==OPER_MODE_SERVER):
-            print("Staring in server mode")
+            print("Staring in server mode. CTRL+C to stop.")
             sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
             sock.settimeout(0.2)
             ttl=struct.pack('b',64)
