@@ -19,7 +19,7 @@ optional arguments:
                         Interval to send message. Ignored if run as a client.
                         Default=1 sec
 
-<pre>
+</pre>
 
 The binary was compiled using pyinstaller<BR><BR>
 
