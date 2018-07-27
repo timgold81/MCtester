@@ -23,7 +23,7 @@ optional arguments:
 
 The binary was compiled using pyinstaller<BR><BR>
 
-#Example
+# Example
 Download from the dist folder the windows executable. Activate two "cmd" windows. Write in one 'MCtester.exe -s -m "Multicast tester"', and in the other 'MCtester.exe -c'
 <BR>
 'MCtester.exe -s -m "Multicast tester"' output:
