@@ -20,3 +20,31 @@ optional arguments:
                         Default=1 sec
 
 <pre>
+
+The binary was compiled using pyinstaller<BR><BR>
+
+Example:<BR>
+Download from the dist folder the windows executable. Activate two "cmd" windows. Write in one 'MCtester.exe -s -m "Multicast tester"', and in the other 'MCtester.exe -c'
+<BR>
+'MCtester.exe -s -m "Multicast tester"' output:
+<pre>
+python.exe MCtester.py -s -m "Multicast tester"
+Staring in server mode
+Sending message 4
+Stopping multicast tester. Thanks for using.
+Please visit https://github.com/timgold81/
+contact timgold@gmail.com
+</pre>
+'MCtester.exe -c' output:
+<pre>
+C:\Users\timg\Documents\Py\MCtester>python MCtester.py -c
+Starting in client mode
+recieved 16 bytes from ('172.18.110.27', 49745)  b'Multicast tester'
+recieved 16 bytes from ('172.18.110.27', 49745)  b'Multicast tester'
+recieved 16 bytes from ('172.18.110.27', 49745)  b'Multicast tester'
+recieved 16 bytes from ('172.18.110.27', 49745)  b'Multicast tester'
+Waiting for message
+Stopping multicast tester. Thanks for using.
+Please visit https://github.com/timgold81/
+contact timgold@gmail.com
+</pre>

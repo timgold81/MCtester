@@ -122,7 +122,7 @@ def main():
             ttl=struct.pack('b',64)
             sock.setsockopt(socket.IPPROTO_IP,socket.IP_MULTICAST_TTL,ttl)
             mc_group=(conf.ip_address,conf.port)
-            i=0
+            i=1
             while (conf.operation_status):
                 try:
                     sent=sock.sendto(conf.msg.encode(),mc_group)
