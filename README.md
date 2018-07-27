@@ -29,7 +29,7 @@ Download from the dist folder the windows executable. Activate two "cmd" windows
 'MCtester.exe -s -m "Multicast tester"' output:
 <pre>
 c:\MCtester>python.exe -s -m "Multicast tester"
-Staring in server mode
+Staring in server mode. CTRL+C to stop.
 Sending message 4
 Stopping multicast tester. Thanks for using.
 Please visit https://github.com/timgold81/
@@ -38,7 +38,7 @@ contact timgold@gmail.com
 'MCtester.exe -c' output:
 <pre>
 c:\MCtester>python.exe -c
-Starting in client mode
+Starting in client mode. CTRL+C to stop.
 recieved 16 bytes from ('172.18.110.27', 49745)  b'Multicast tester'
 recieved 16 bytes from ('172.18.110.27', 49745)  b'Multicast tester'
 recieved 16 bytes from ('172.18.110.27', 49745)  b'Multicast tester'
