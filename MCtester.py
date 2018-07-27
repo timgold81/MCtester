@@ -4,6 +4,7 @@ import sys
 import signal
 import argparse
 import time
+import threading
 
 DEFAULT_IP_ADDRESS="239.254.0.1"
 DEFAULT_PORT=5005
@@ -61,7 +62,7 @@ class configuration:
         self.operation_status=True
         self.ip_address=DEFAULT_IP_ADDRESS
         self.port=DEFAULT_PORT
-        self.msg="Hello World!"
+        self.msg=DEFAULT_MESSAGE
         self.interval=DEFAULT_MESSAGE_INTERVAL
 
     def print_params(self):
@@ -72,6 +73,29 @@ class configuration:
         print ("operation mode:"+self.oper_mode)
         print ("interval:"+str(self.interval))
 
+class client_worker(threading.Thread):
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+    def run(self):
+        mc_group = conf.ip_address
+        srv_addr = ('', conf.port)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.bind(srv_addr)
+
+        group = socket.inet_aton(mc_group)
+        mreq = struct.pack('4sL', group, socket.INADDR_ANY)
+        sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+
+        while (conf.operation_status):
+            print("Waiting for message", end="\r")
+            data, address = sock.recvfrom(1024)
+
+            print("                              ", end="\r")
+            print("recieved %s bytes from %s " % (len(data), address) + " " + str(data))
+
+            time.sleep(1)
+
 
 def main():
     global conf
@@ -80,24 +104,15 @@ def main():
     if (parse_args()==1):
         if (conf.oper_mode==OPER_MODE_CLIENT):
             print("Starting in client mode")
-
-            mc_group = conf.ip_address
-            srv_addr = ('', conf.port)
-            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            sock.bind(srv_addr)
-
-            group = socket.inet_aton(mc_group)
-            mreq = struct.pack('4sL', group, socket.INADDR_ANY)
-            sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
-
-            while (conf.operation_status):
-                print("Waiting for message", end="\r")
-                data, address = sock.recvfrom(1024)
-
-                print("                              ", end="\r")
-                print ("recieved %s bytes from %s " %(len(data),address)+" "+str(data))
-
-                time.sleep(1)
+            try:
+                thread = client_worker()
+                thread.daemon=True
+                thread.start()
+                while(conf.operation_status):
+                    # print (">>>")
+                    pass
+            except threading.ThreadError:
+                print ("")
 
 
         elif (conf.oper_mode==OPER_MODE_SERVER):
@@ -113,19 +128,14 @@ def main():
                     sent=sock.sendto(conf.msg.encode(),mc_group)
                 except:
                     print ("Error sending")
-                print("                  " , end="\r")
-                print ("Sending message "+str(i)+" ",end="\r")
+                print("                  " ,end="\r")
+                print("Sending message "+str(i)+" ",end="\r")
                 i=i+1
                 time.sleep(conf.interval)
-
-
 
     else:
         print ("Parameters error")
         sys.exit (-1)
-
-
-
 
 if __name__=="__main__":
     signal.signal(signal.SIGINT, signal_handler)
